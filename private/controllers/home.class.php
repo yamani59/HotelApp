@@ -16,6 +16,8 @@ class Home extends Controller {
     if (isset($_SESSION['flass'])) {
       if ($_SESSION['flass'] === false) Flass::msg('failed');
       else Flass::msg('success');
+
+      unset($_SESSION['flass']);
     }
 
     if ($_SERVER['REQUES_METHOD'] == 'POST') {
@@ -26,9 +28,13 @@ class Home extends Controller {
 
       if ($this->model('order')->insertData($currentData)) {
         $_SESSION['flass'] = true;
-        header('location: ' . BASEURL . 'home/');
+        header('location: ' . BASEURL . 'home');
         exit();
       }
+
+      $_SESSION['flass'] = false;
+      header('location: ' . BASEURL . 'home');
+      exit();
     }
 
     $this->view('template/top', $this->navbar);
