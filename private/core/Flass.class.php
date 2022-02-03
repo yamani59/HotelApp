@@ -1,6 +1,6 @@
 <?php
 class Flass {
-  public function flass(string $msg) :void {
+  public function msg(string $msg) :void {
     echo ''?>;
       <script>
         alert(<?= $msg ?>)

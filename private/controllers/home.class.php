@@ -13,6 +13,11 @@ class Home extends Controller {
   }
 
   public function index() :void {
+    if (isset($_SESSION['flass'])) {
+      if ($_SESSION['flass'] === false) Flass::msg('failed');
+      else Flass::msg('success');
+    }
+
     if ($_SERVER['REQUES_METHOD'] == 'POST') {
       $currentData = $_POST;
       array_walk($currentData, function(&$item, $key) {
@@ -20,6 +25,7 @@ class Home extends Controller {
       });
 
       if ($this->model('order')->insertData($currentData)) {
+        $_SESSION['flass'] = true;
         header('location: ' . BASEURL . 'home/');
         exit();
       }
@@ -38,5 +44,11 @@ class Home extends Controller {
     $this->view('template/bottom');
   }
 
+  public function facilities() :void {
+    $getData = $this->model('hotel_facilities')->getData();
 
-}
+    $this->view('template/top', $this->navbar);
+    $this->view('home/facilities', $getData);
+    $this->view('template/bottom');
+  }
+} 
