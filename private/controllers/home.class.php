@@ -15,9 +15,14 @@ class Home extends Controller {
   public function index() :void {
     if ($_SERVER['REQUES_METHOD'] == 'POST') {
       $currentData = $_POST;
-      array_walk($currentData, function($item, $key) {
-
+      array_walk($currentData, function(&$item, $key) {
+        $item = filter_var($item, FILTER_SANITIZE_STRING);
       });
+
+      if ($this->model('order')->insertData($currentData)) {
+        header('location: ' . BASEURL . 'home/');
+        exit();
+      }
     }
 
     $this->view('template/top', $this->navbar);
