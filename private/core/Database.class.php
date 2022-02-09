@@ -1,128 +1,142 @@
 <?php
-class Database {
-  private $db;
+class Database
+{
   private $stmt;
+  private $db;
   private $table;
 
-  public function __construct(string $table) {
+  public function __construct(String $table)
+  {
     $this->table = $table;
     $this->db = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME;
-
     try {
       $this->db = new PDO($this->db, DB_USER, DB_PASS, [
         PDO::ATTR_PERSISTENT => true,
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
       ]);
-    } catch(PDOException $e) {
+    } catch (PDOException $e) {
       die($e->getMessage());
     }
   }
 
-  public function query(string $query) :void {
+  public function query($query): void
+  {
     $this->stmt->prepare($query);
   }
 
-  public function bind(string $param, $value, $type = null) :void {
-    if (is_null($type))
-      switch (true) {
-        case is_int($value):
-          $type = PDO::PARAM_INT;
-          break;
-        case is_bool($value):
-          $type = PDO::PARAM_BOOL;
-          break;
-        case is_null($value):
-          $type = PDO::PARAM_NULL;
-          break;
-        default:
-          $type = PDO::PARAM_STR;
-      }
-
-    $this->stmt->bindValue($param, $value, $type);
-  }
-
-  public function execute() :void {
+  public function execute(): void
+  {
     $this->stmt->execute();
   }
 
-  public function resultSet() :array {
+  public function rowCount(): int
+  {
+    $this->execute();
+    return $this->stmt->rowCount();
+  }
+
+  public function resultSet(): array
+  {
     $this->execute();
     return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function sigle() :array {
-    $this->execute();
-    return $this->smt->fetch(PDO::FETCH_ASSOC);
+  public function bind($param, $value, $type = null): void
+  {
+    switch (is_null($type)) {
+      case is_int($value):
+        $type = PDO::PARAM_INT;
+        break;
+      case is_bool($value):
+        $type = PDO::PARAM_BOOL;
+        break;
+      case is_null($value):
+        $type = PDO::PARAM_NULL;
+        break;
+      default:
+        $type = PDO::PARAM_STR;
+    }
+    $this->stmt->bindValue($param, $value, $type);
   }
 
-  public function rowCount() :int {
-    $this->execute();
-    return $this->stmt->rowCount();
+  public function sanitizeHtml(array $data): array
+  {
+    $cleanData = [];
+    foreach ($data as $key => $value) {
+      $cleanData[$key] = htmlspecialchars($value);
+    }
+    return $cleanData;
   }
 
 
   /*
       CRUD FUNCTION
   */
-  public function getData() :array {
-    $this->query('
-    SELECT * FROM :table
-    ');
+  public function insertData(array $data): bool
+  {
+    $i = 1;
+    $cleanData = $this->sanitizeHtml($data);
+    $query = 'INSERT INTO :table SET';
 
-    $this->bind("table", $this->table);
-    return $this->resultSet();
-  }
+    foreach ($cleanData as $key => $val) {
+      if ($i === count($cleanData)) $query .= $key;
+      else {
+        $query .= ' :' . $key . ',';
+        $i++;
+      }
+    }
+    $this->query($query);
+    $this->stmt->bindValue(':table', $this->table);
+    foreach ($cleanData as $key => $val) {
+      $this->bind($key, $val);
+    }
 
-  public function getDataBy(string $by, $value) :array {
-    $this->query('
-      SELECT * FROM :table WHERE :by = :value
-    ');
-
-    $this->bind('table', $this->table);
-    $this->bind('by', $by);
-    $this->bind('value', $value);
-    return $this->resultSet();
-  }
-
-  public function insertData(array $data) :bool {
-    $this->query('
-      INSERT INTO :table VALUES SET :data
-    ');
-
-    $this->bind('table', $this->table);
-    $this->stmt->bindValue('data', $data);
-    
-    if ($this->rowCount() > 0) return true;
-    return false; 
-  }
-
-  public function deleteData(string $by, $value) :bool {
-    $this->query('
-      DELETE FROM :table WHERE :by = :value
-    ');
-
-    $this->bind('table', $this->table);
-    $this->bind('by', $by);
-    $this->bind('value', $value);
-
-    if ($this->rowCount() > 0) return true;
+    if ($this->rowCount > 0) return true;
     return false;
   }
 
-  public function updateData(
-    array $data, 
-    string $by, 
-    $value) :bool {
-    $this->query('
-      UPDATE :table SET :data WHERE :id = :value
-    ');
+  public function getData(array $options = null): array
+  {
+    $query = 'SELECT * FROM :table';
+    if (!is_null($options)) $query .= ' WHERE :by = :value';
+    $this->query($query);
+    $this->stmt->bindValue(':table', $this->table);
+    $this->stmt->bindValue(':by', $options['by']);
+    $this->bind(':value', $options['value']);
+    return $this->resultSet();
+  }
 
-    $this->bind('table', $this->table);
-    $this->stmt->bindValue('data', $data);
-    $this->bind('id', $by);
-    $this->bind('value', $value);
+  public function deleteData(array $options): bool
+  {
+    $query = 'DELETE FROM :table WHERE :by = :value';
+    $this->stmt->bindValue(':table', $this->table);
+    $this->stmt->bindValue(':by', $options['by']);
+    $this->bind(':value', $options['value']);
 
-    if ($this->rowCount() > 0) return true;
+    if ($this->rowCount > 0) return true;
+    return false;
+  }
+
+  public function updateData(array $data): bool
+  {
+    $i = 1;
+    $cleanData = $this->sanitizeHtml($data);
+    $query = 'INSERT INTO :table SET';
+
+    foreach ($cleanData as $key => $val) {
+      if ($i === count($cleanData)) $query .= $key;
+      else {
+        $query .= ' :' . $key . ',';
+        $i++;
+      }
+    }
+    $this->query($query);
+    $this->stmt->bindValue(':table', $this->table);
+    foreach ($cleanData as $key => $val) {
+      $this->bind($key, $val);
+    }
+
+    if ($this->rowCount > 0) return true;
     return false;
   }
 }

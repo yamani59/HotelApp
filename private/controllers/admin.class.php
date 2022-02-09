@@ -1,10 +1,12 @@
 <?php
 /* class for admin page */
 
-class Admin extends Controller {
+class Admin extends Controller
+{
   private $navbar = [];
 
-  public function __construct() {
+  public function __construct()
+  {
     if (isset($_SESSION['logged'])) {
       if ($_SESSION['logged'] == 'resepsionis') {
         header('location: ' . BASEURL . 'resepsionis');
@@ -19,19 +21,24 @@ class Admin extends Controller {
     ];
   }
 
-  public function index() :void {
+  public function index(): void
+  {
+    if (isset($_SESSION['flass'])) {
+      if ($_SESSION['flass'] == true) Flass::msg('SUCCESS');
+      if ($_SESSION['flass'] == false) Flass::msg('FAILED');
+    }
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $currentValue = $_POST;
-      array_walk($currentValue, function(&$item, $key) {
+      array_walk($currentValue, function (&$item, $key) {
         $item = filter_var($item, FILTER_SANITIZE_STRING);
       });
-      
+
       if ($this->model('room')->insertData($currentValue)) {
         $_SESSION['flass'] = true;
         header('location: ' . BASEURL . 'admin');
         exit();
       }
-    }   
+    }
 
     $getData = $this->model('room')->getData();
 
@@ -40,22 +47,47 @@ class Admin extends Controller {
     $this->view('template/bottom');
   }
 
-  public function fasilitas_kamar() :void {
-
+  public function fasilitas_kamar(): void
+  {
   }
 
-  public function fusilitas_hotel() :void {
-
+  public function fusilitas_hotel(): void
+  {
   }
 
-  public function update($by) :void {
+  public function update($by): void
+  {
     if (!$_SERVER['REQUEST_METHOD'] == 'POST') {
       header('location: ' . BASEURL . 'admin');
       exit();
     }
-
-
     // variabel post contain key url, form and value    
     $this->view('template/update', $_POST);
+  }
+
+  public function insert(): void
+  {
+    if (!$_SERVER['REQUEST_METHOD'] == 'POST') {
+      header('location: ' . BASEURL . 'admin');
+      exit();
+    }
+    if ($_POST['option'] === "post") {
+      if ($this->model('kamar')->insertData($_POST === true)) {
+        $_SESSION['flass'] = true;
+        header('location: ' . BASEURL . 'admin');
+        exit();
+      }
+      $_SESSION['flass'] = false;
+      header('location: ' . BASEURL . 'admin');
+      exit();
+    } else {
+      $inputList = [
+        "name" => "text",
+        "room_count" => "number",
+        "facilities" => "text",
+        "link" => BASEURL . 'admin/insert'
+      ];
+      $this->view('template/insert', $inputList);
+    }
   }
 }
