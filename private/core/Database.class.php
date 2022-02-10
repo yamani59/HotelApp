@@ -10,7 +10,7 @@ class Database
     $this->table = $table;
     $this->db = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME;
     try {
-      $this->db = new PDO($this->db, DB_USER, DB_PASS, [
+      $this->db = new PDO($this->db, DB_USER, '', [
         PDO::ATTR_PERSISTENT => true,
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
       ]);
@@ -21,7 +21,7 @@ class Database
 
   public function query($query): void
   {
-    $this->stmt->prepare($query);
+    $this->stmt = $this->db->prepare($query);
   }
 
   public function execute(): void
@@ -73,20 +73,27 @@ class Database
       CRUD FUNCTION
   */
   public function insertData(array $data): bool
-  {
+  { 
     $i = 1;
     $cleanData = $this->sanitizeHtml($data);
-    $query = 'INSERT INTO :table SET';
 
+    // make query
+    $query = "INSERT INTO $this->table (`id`, ";
     foreach ($cleanData as $key => $val) {
-      if ($i === count($cleanData)) $query .= $key;
-      else {
-        $query .= ' :' . $key . ',';
-        $i++;
-      }
+      if ($i === count($cleanData)) $query .= "`$key`)";
+      else $query .= "`$key`,";
+      $i++;
     }
+    $i = 1;
+    $query .= " VALUES (NULL, ";
+    foreach ($cleanData as $key => $val) {
+      if ($i === count($cleanData)) $query .= ":$key)";
+      else $query .= ":$key,";
+      $i++;
+    }
+    
+    
     $this->query($query);
-    $this->stmt->bindValue(':table', $this->table);
     foreach ($cleanData as $key => $val) {
       $this->bind($key, $val);
     }
@@ -97,12 +104,13 @@ class Database
 
   public function getData(array $options = null): array
   {
-    $query = 'SELECT * FROM :table';
+    $query = 'SELECT * FROM ' . $this->table;
     if (!is_null($options)) $query .= ' WHERE :by = :value';
     $this->query($query);
-    $this->stmt->bindValue(':table', $this->table);
-    $this->stmt->bindValue(':by', $options['by']);
-    $this->bind(':value', $options['value']);
+    if ( ! is_null($options)){
+      $this->stmt->bindValue(':by', $options['by']);
+      $this->bind(':value', $options['value']);
+    }
     return $this->resultSet();
   }
 

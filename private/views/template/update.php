@@ -3,7 +3,7 @@
     <?php foreach ($data['form'] as $key => $values): ?>
       <?php if ($key == 'image'): ?>
         <label> <?= $key ?> </label>
-        <input type="image" name='image'>
+        <input type="image" name='image' >
       <?php endif ?>
     <?php endforeach ?>
   </form>

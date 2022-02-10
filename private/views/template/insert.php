@@ -1,9 +1,9 @@
 <div class="container">
-  <form action=<?= $data['link'] ?> method="post">
-    <?php foreach ($data as $key => $value) : ?>
+  <form action=<?= $data['action'] ?> method="post" enctype="multipart/form-data">
+    <?php foreach ($data['form'] as $key => $value) : ?>
       <div class="input">
         <label for=""><?= $key ?></label>
-        <input type="<?= $value ?>" name="<?= $key ?>">
+        <input type="<?= $value ?>" name="<?= $key ?>" autocomplete="off">
       </div>
     <?php endforeach ?>
     <input type="hidden" name="option" value="post">

@@ -10,16 +10,21 @@ const updateData = (link, data, option) => {
 }
 
 const deleteData = (link) => {
-
+  alert('kk')
+  console.log(link)
 }
 
-const insertData = (link, option) => {
-  const container = document.querySelector('.container')
+const insertData = function(link) {
+  console.log(link)
+  const container = document.getElementById('container')
   const form = new FormData();
   form.append('option', false)
   fetch(link, {
-    'method': 'post',
+    method: 'POST',
     body: form
-  }).then(res => res.text)
-    .then(data => {container.innerHTML = data})
+  }).then(res => res.text())
+    .then(data => {
+      console.log(data)
+      container.innerHTML = data
+    })
 }

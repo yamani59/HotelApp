@@ -1,4 +1,5 @@
-<div class="container">
+<script src="<?= BASEURL . 'js/admin.js'?>"></script>
+<div class="container" id="container">
   <table cellspacing="0" cellpadding="0">
     <tr>
       <th>Tipe Kamar</th>
@@ -17,5 +18,5 @@
     <?php endforeach ?>
   </table>
 
-  <button onclick="insertData(<?= BASEURL . 'admin/insert' ?>)">Tambah</button>
+  <button onclick="insertData('<?= BASEURL . 'admin/insert'?>')">Tambah</button>
 </div>

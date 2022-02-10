@@ -16,8 +16,6 @@ class Home extends Controller
 
   public function index(): void
   {
-    echo "hai";
-    die();
     if (isset($_SESSION['flass'])) {
       if ($_SESSION['flass'] === false) Flass::msg('failed');
       else Flass::msg('success');

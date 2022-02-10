@@ -71,8 +71,27 @@ class Admin extends Controller
       header('location: ' . BASEURL . 'admin');
       exit();
     }
-    if ($_POST['option'] === "post") {
-      if ($this->model('kamar')->insertData($_POST === true)) {
+    if ($_POST['option'] === 'post') {
+      $extension = ['png', 'jpg', 'jpeg'];
+      $fileExtension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+
+      if ( ! in_array($fileExtension, $extension)) {
+        header('location: ' . BASEURL . '/admin');
+        $_SESSION['flass'] = false;
+        exit();
+      }
+
+      $currentName = bin2hex(random_bytes(8));
+      $currentPath = 'private/images/' . $currentName .'.'. $fileExtension;
+      move_uploaded_file($_FILES['image']['tmp_name'], $currentPath);
+      $dataPost = [
+        "name" => $_POST['name'],
+        "room_count" => $_POST['room_count'],
+        "facilities" => $_POST['facilities'],
+        "image" => $currentName .'.'. $fileExtension
+      ];
+
+      if ($this->model('room')->insertData($dataPost) === true) {
         $_SESSION['flass'] = true;
         header('location: ' . BASEURL . 'admin');
         exit();
@@ -81,12 +100,13 @@ class Admin extends Controller
       header('location: ' . BASEURL . 'admin');
       exit();
     } else {
-      $inputList = [
+      $inputList['form'] = [
         "name" => "text",
         "room_count" => "number",
         "facilities" => "text",
-        "link" => BASEURL . 'admin/insert'
+        "image" => "file"
       ];
+      $inputList['action'] = BASEURL . 'admin/insert';
       $this->view('template/insert', $inputList);
     }
   }
