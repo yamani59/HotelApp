@@ -1,19 +1,108 @@
 @import url("https://fonts.googleapis.com/css2?family=Fira+Sans:wght@900&family=Merriweather:wght@300;400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
 * {
   padding: 0;
   margin: 0;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   overflow-x: hidden;
+  font-family: 'Varela Round', sans-serif;
 }
 
 .header {
-  background: #240e0e;
-  padding: 3em;
+  background: #ffffff;
+  padding: 2em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-bottom: 2px solid black;
 }
 
-.container {
-  background: #f5f4ff;
-  padding: 10em;
+.header .navbar {
+  margin-left: 3em;
+}
+
+.header .navbar > a {
+  font-size: 20px;
+  margin-left: 2em;
+  text-decoration: none;
+  color: #292929;
+}
+
+.header .title i {
+  font-size: 30px;
+}
+
+.header .title h1 {
+  font-family: 'Fira Sans';
+}
+
+.container .wrap-Insert {
+  height: 90vh;
+  background-image: url("../assets/img1.png");
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.container .wrap-Insert .form {
+  border: 2px solid black;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  width: 30%;
+}
+
+.container .wrap-Insert .form .header {
+  background: #ffd901;
+  padding: 2em;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.container .wrap-Insert .form form {
+  background: #fff;
+  padding: 3em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.container .wrap-Insert .form form input[type=file] {
+  border: none;
+}
+
+.container .wrap-Insert .form form textarea {
+  padding: 20px;
+  resize: none;
+}
+
+.container .wrap-Insert .form form > input {
+  padding: 20px;
+  margin-bottom: 1em;
+}
+
+.container .wrap-Kamar {
+  background: #f0f0f0;
+  padding: 1em 5em;
+  height: 100vh;
 }
 /*# sourceMappingURL=admin.css.map */
