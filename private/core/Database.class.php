@@ -73,7 +73,7 @@ class Database
       CRUD FUNCTION
   */
   public function insertData(array $data): bool
-  { 
+  {
     $i = 1;
     $cleanData = $this->sanitizeHtml($data);
 
@@ -91,13 +91,13 @@ class Database
       else $query .= ":$key,";
       $i++;
     }
-    
-    
+
     $this->query($query);
     foreach ($cleanData as $key => $val) {
       $this->bind($key, $val);
     }
 
+    $this->execute();
     if ($this->rowCount > 0) return true;
     return false;
   }
@@ -107,7 +107,7 @@ class Database
     $query = 'SELECT * FROM ' . $this->table;
     if (!is_null($options)) $query .= ' WHERE :by = :value';
     $this->query($query);
-    if ( ! is_null($options)){
+    if (!is_null($options)) {
       $this->stmt->bindValue(':by', $options['by']);
       $this->bind(':value', $options['value']);
     }

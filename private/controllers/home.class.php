@@ -62,4 +62,15 @@ class Home extends Controller
     $this->view('home/facilities', $getData);
     $this->view('template/bottom');
   }
+
+  public function insert(): void
+  {
+    if ($_SERVER('REQUEST_METHOD') == 'POST') {
+      $this->model('room')->insertData($_POST);
+    }
+
+    $this->view('template/top');
+    $this->view('admin/tambah.php');
+    $this->view('template/bottom');
+  }
 }
