@@ -9,11 +9,6 @@ const updateData = (link, data, option) => {
   
 }
 
-const deleteData = (link) => {
-  alert('kk')
-  console.log(link)
-}
-
 const insertData = function(link) {
   console.log(link)
   const container = document.getElementById('container')

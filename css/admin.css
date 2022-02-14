@@ -1,2 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Fira+Sans:wght@900&family=Merriweather:wght@300;400&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.header {
+  background: #240e0e;
+  padding: 3em;
+}
+
+.container {
+  background: #f5f4ff;
+  padding: 10em;
+}
 /*# sourceMappingURL=admin.css.map */

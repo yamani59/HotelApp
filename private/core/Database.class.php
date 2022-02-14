@@ -105,7 +105,7 @@ class Database
   public function getData(array $options = null): array
   {
     $query = 'SELECT * FROM ' . $this->table;
-    if (!is_null($options)) $query .= ' WHERE :by = :value';
+    if (!is_null($options)) $query .= ' WHERE ' . $options['by'] . ' = :value';
     $this->query($query);
     if (!is_null($options)) {
       $this->stmt->bindValue(':by', $options['by']);
@@ -116,11 +116,11 @@ class Database
 
   public function deleteData(array $options): bool
   {
-    $query = 'DELETE FROM :table WHERE :by = :value';
-    $this->stmt->bindValue(':table', $this->table);
-    $this->stmt->bindValue(':by', $options['by']);
+    $query = 'DELETE FROM ' . $this->table . ' WHERE ' . $options['by'] . ' = :value';
+    $this->query($query);
     $this->bind(':value', $options['value']);
 
+    $this->execute();
     if ($this->rowCount > 0) return true;
     return false;
   }
@@ -129,7 +129,7 @@ class Database
   {
     $i = 1;
     $cleanData = $this->sanitizeHtml($data);
-    $query = 'INSERT INTO :table SET';
+    $query = "INSERT INTO $this->table SET ";
 
     foreach ($cleanData as $key => $val) {
       if ($i === count($cleanData)) $query .= $key;

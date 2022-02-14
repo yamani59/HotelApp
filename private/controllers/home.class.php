@@ -10,7 +10,8 @@ class Home extends Controller
     $this->navbar = [
       'home' => BASEURL . 'home',
       'kamar' => BASEURL . 'home/kamar',
-      'fasilitas' => BASEURL . 'home/fasilitas'
+      'fasilitas' => BASEURL . 'home/fasilitas',
+      'css' => 'admin.css'
     ];
   }
 
@@ -23,7 +24,7 @@ class Home extends Controller
       unset($_SESSION['flass']);
     }
 
-    if ($_SERVER['REQUES_METHOD'] == 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $currentData = $_POST;
       array_walk($currentData, function (&$item, $key) {
         $item = filter_var($item, FILTER_SANITIZE_STRING);

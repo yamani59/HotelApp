@@ -1,4 +1,6 @@
 <script src="<?= BASEURL . 'js/admin.js'?>"></script>
+<?php $update = BASEURL . 'admin/update/' ?>
+
 <div class="container" id="container">
   <table cellspacing="0" cellpadding="0">
     <tr>
@@ -11,8 +13,8 @@
         <td><?= $dt['name'] ?></td>
         <td><?= $dt['room_count'] ?></td>
         <td>
-          <button onclick="">update</button>
-          <button onclick="">delete</button>
+          <a href="<?= BASEURL . 'admin/update/' . $dt['id'] ?>">update</a>
+          <a href="<?= BASEURL . 'admin/delete/' . $dt['id'] ?>">hapus</a>
         </td>
       </tr>
     <?php endforeach ?>
