@@ -23,7 +23,7 @@ class Home extends Controller
       unset($_SESSION['flass']);
     }
 
-    if ($_SERVER['REQUES_METHOD'] == 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $currentData = $_POST;
       array_walk($currentData, function (&$item, $key) {
         $item = filter_var($item, FILTER_SANITIZE_STRING);

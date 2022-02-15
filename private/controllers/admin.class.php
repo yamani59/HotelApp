@@ -61,8 +61,16 @@ class Admin extends Controller
       header('location: ' . BASEURL . 'admin');
       exit();
     }
-    // variabel post contain key url, form and value    
-    $this->view('template/update', $_POST);
+
+    $options = [
+      'by' => 'id',
+      'value' => $by
+    ];
+    $getData = $this->model('room')->getData($options)[0];
+
+    $this->view('template/top');
+    $this->view('admin/update', $getData);
+    $this->view('template/bottom');
   }
 
   public function insert(): void
@@ -109,5 +117,15 @@ class Admin extends Controller
       $inputList['action'] = BASEURL . 'admin/insert';
       $this->view('template/insert', $inputList);
     }
+  }
+
+  public function delete($delete): void
+  {
+    $option = [
+      'by' => 'id',
+      'value' => $delete
+    ];
+    $this->model('room')->deleteData($option);
+    header('location: ' . BASEURL . 'admin/index');
   }
 }
