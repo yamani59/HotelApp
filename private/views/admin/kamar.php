@@ -3,8 +3,8 @@
 
 <div class="container" id="container">
   <div class="wrap-Kamar">
-    <table cellspacing="0" cellpadding="0">
-      <tr>
+    <table border="1" cellspacing="0" cellpadding="0">
+      <tr id="head">
         <th>Tipe Kamar</th>
         <th>Jumlah Kamar</th>
         <th>Action</th>
@@ -21,6 +21,6 @@
       <?php endforeach ?>
     </table>
 
-    <a href="<?= BASEURL . 'admin/insert' ?>">TAMBAH</a>
+    <a class="tambah" href="<?= BASEURL . 'admin/insert' ?>"><i class="fa-solid fa-plus"></i></a>
   </div>
 </div>

@@ -11,7 +11,7 @@
 
 .header {
   background: #ffffff;
-  padding: 2em;
+  padding: 1em;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -76,7 +76,7 @@
 
 .container .wrap-Insert .form form {
   background: #fff;
-  padding: 3em;
+  padding: 2em;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -95,6 +95,12 @@
   resize: none;
 }
 
+.container .wrap-Insert .form form input[type=submit] {
+  background: #ffd901;
+  outline: none;
+  border: 1px solid black;
+}
+
 .container .wrap-Insert .form form > input {
   padding: 20px;
   margin-bottom: 1em;
@@ -104,5 +110,44 @@
   background: #f0f0f0;
   padding: 1em 5em;
   height: 100vh;
+}
+
+.container .wrap-Kamar .tambah {
+  margin: 1em;
+  float: right;
+  background: #ffd901;
+  padding: 0.5em;
+  border-radius: 100%;
+}
+
+.container .wrap-Kamar a {
+  font-size: 19pt;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.container .wrap-Kamar table {
+  width: 100%;
+}
+
+.container .wrap-Kamar table td, .container .wrap-Kamar table th {
+  padding: 0.5em;
+}
+
+.container .wrap-Kamar table #head {
+  background: #ffd901;
+}
+
+.container .wrap-Kamar table tr {
+  background: white;
+}
+
+.container .wrap-Kamar table tr:hover {
+  background: #f8ffd0;
+}
+
+.container .wrap-Kamar table td a {
+  font-size: 16px;
+  color: black;
 }
 /*# sourceMappingURL=admin.css.map */

@@ -108,7 +108,7 @@ class Database
     if (!is_null($options)) $query .= ' WHERE ' . $options['by'] . ' = :value';
     $this->query($query);
     if (!is_null($options)) {
-      $this->stmt->bindValue(':by', $options['by']);
+      // $this->stmt->bindValue(':by', $options['by']);
       $this->bind(':value', $options['value']);
     }
     return $this->resultSet();
@@ -129,21 +129,22 @@ class Database
   {
     $i = 1;
     $cleanData = $this->sanitizeHtml($data);
-    $query = "INSERT INTO $this->table SET ";
+    $query = "UPDATE $this->table SET ";
 
     foreach ($cleanData as $key => $val) {
-      if ($i === count($cleanData)) $query .= $key;
+      if ($i === count($cleanData)) $query .= $key .'=:'. $key .' WHERE id=:'.$key;
       else {
-        $query .= ' :' . $key . ',';
+        $query .= $key .'=:' . $key . ',';
         $i++;
       }
     }
+
     $this->query($query);
-    $this->stmt->bindValue(':table', $this->table);
     foreach ($cleanData as $key => $val) {
       $this->bind($key, $val);
     }
 
+    $this->execute();
     if ($this->rowCount > 0) return true;
     return false;
   }

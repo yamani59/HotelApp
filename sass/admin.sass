@@ -9,7 +9,7 @@
 
 .header
   background: #ffffff
-  padding: 2em
+  padding: 1em
   display: flex
   align-items: center
   border-bottom: 2px solid black
@@ -47,7 +47,7 @@
         justify-content: center
       form
         background: #fff
-        padding: 3em
+        padding: 2em
         display: flex
         flex-direction: column
         input[type=file]
@@ -55,6 +55,10 @@
         textarea
           padding: 20px
           resize: none
+        input[type=submit]
+          background: #ffd901
+          outline: none
+          border: 1px solid black
       form>input
           padding: 20px
           margin-bottom: 1em
@@ -62,3 +66,27 @@
     background: #f0f0f0
     padding: 1em 5em
     height: 100vh
+    .tambah
+      margin: 1em
+      float: right
+      background: #ffd901
+      padding: 0.5em
+      border-radius: 100%
+    a
+      font-size: 19pt
+      color: #ffffff
+      text-decoration: none
+    table
+      width: 100%
+      td, th
+        padding: 0.5em
+      #head
+        background: #ffd901
+      tr
+        background: white
+      tr:hover
+        background: #f8ffd0
+      td
+        a
+          font-size: 16px
+          color: black
