@@ -11,7 +11,6 @@ class Home extends Controller
       'home' => BASEURL . 'home',
       'kamar' => BASEURL . 'home/kamar',
       'fasilitas' => BASEURL . 'home/fasilitas',
-      'css' => 'admin.css'
     ];
   }
 

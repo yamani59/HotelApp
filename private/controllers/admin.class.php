@@ -23,7 +23,6 @@ class Admin extends Controller
 
   public function index(): void
   {
-    Flass::msg('SUCCES');
     if (isset($_SESSION['flass'])) {
       if ($_SESSION['flass'] == true) Flass::msg('SUCCESS');
       if ($_SESSION['flass'] == false) Flass::msg('FAILED');
@@ -52,7 +51,6 @@ class Admin extends Controller
 
   public function fasilitas_kamar(): void
   {
-    Flass::msg('SUCCES');
     if (isset($_SESSION['flass'])) {
       if ($_SESSION['flass'] == true) Flass::msg('SUCCESS');
       if ($_SESSION['flass'] == false) Flass::msg('FAILED');
@@ -79,10 +77,117 @@ class Admin extends Controller
     $this->view('template/bottom');
   }
 
-  public function fusilitas_hotel(): void
+  public function hotel_update($by): void
   {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+      $dataPost = [
+        "facilities" => $_POST['facilities'],
+        "description" => $_POST['description']
+      ];
+
+      $extension = ['png', 'jpg', 'jpeg'];
+
+      if (isset($_FILE['image'])) {
+        $fileExtension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+
+        if (!in_array($fileExtension, $extension)) {
+          header('location: ' . BASEURL . 'admin');
+          $_SESSION['flass'] = false;
+          exit();
+        }
+
+        $currentName = bin2hex(random_bytes(8));
+        $currentPath = 'private/images/' . $currentName . '.' . $fileExtension;
+        move_uploaded_file($_FILES['image']['tmp_name'], $currentPath);
+        $dataPost['image'] = $currentName . '.' . $fileExtension;
+      }
+
+      $dataPost['id'] = $by;
+      if ($this->model('HotelFacilities')->updateData($dataPost) > 0) {
+        $_SESSION['flass'] = true;
+        header('location: ' . BASEURL . 'admin');
+        exit();
+      }
+      $_SESSION['flass'] = false;
+      header('location: ' . BASEURL . 'admin');
+      exit();
+    }
+
+    $options = [
+      'by' => 'id',
+      'value' => $by
+    ];
+    $getData = $this->model('HotelFacilities')->getData($options)[0];
     $this->view('template/top', $this->navbar);
-    $this->view('admin/fasilitas_hotel', );
+    $this->view('admin/hotel_update', $getData);
+    $this->view('template/bottom');
+  }
+
+  public function hotel_hapus($by): void
+  {
+    $options = [
+      'by' => 'id',
+      'value' => $by
+    ];
+
+    if ($this->model('HotelFacilities')->deleteData($options) > 0) {
+      $_SESSION['flass'] = true;
+      header('location: ' . BASEURL . 'admin/fasilitas_hotel');
+      exit();
+    }
+
+    $_SESSION['flass'] = false;
+    header('location: ' . BASEURL . 'admin/fasilitas_hotel');
+    exit();
+  }
+
+  public function fasilitas_hotel_tambah(): void
+  {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+      $extension = ['png', 'jpg', 'jpeg'];
+      $fileExtension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+
+      if (!in_array($fileExtension, $extension)) {
+        header('location: ' . BASEURL . '/admin');
+        $_SESSION['flass'] = false;
+        exit();
+      }
+
+      $currentName = bin2hex(random_bytes(8));
+      $currentPath = 'private/images/' . $currentName . '.' . $fileExtension;
+      move_uploaded_file($_FILES['image']['tmp_name'], $currentPath);
+      $dataPost = [
+        "facilities" => $_POST['facilities'],
+        "description" => $_POST['description'],
+        "image" => $currentName . '.' . $fileExtension
+      ];
+
+      if ($this->model('HotelFacilities')->insertData($dataPost) === true) {
+        $_SESSION['flass'] = true;
+        header('location: ' . BASEURL . 'admin/fasilitas_hotel');
+        exit();
+      }
+      $_SESSION['flass'] = false;
+      header('location: ' . BASEURL . 'admin/fasilitas_hotel');
+      exit();
+    }
+
+    $this->view('template/top', $this->navbar);
+    $this->view('admin/hotel_tambah');
+    $this->view('template/bottom');
+  }
+
+  public function fasilitas_hotel(): void
+  {
+    if (isset($_SESSION['flass'])) {
+      if ($_SESSION['flass'] === true) Flass::msg('Success');
+      if ($_SESSION['flass'] === false) Flass::msg('Failed');
+      unset($_SESSION['flass']);
+    }
+
+    $getData = $this->model('hotelfacilities')->getData();
+    $this->view('template/top', $this->navbar);
+    $this->view('admin/fasilitas_hotel', $getData);
     $this->view('template/bottom');
   }
 
@@ -96,7 +201,7 @@ class Admin extends Controller
       ];
       $extension = ['png', 'jpg', 'jpeg'];
 
-      if ( ! empty($_FILE)) {
+      if (isset($_FILE['image'])) {
         $fileExtension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
 
         if (!in_array($fileExtension, $extension)) {
@@ -114,7 +219,7 @@ class Admin extends Controller
       $dataPost['id'] = $by;
       if ($this->model('room')->updateData($dataPost) > 0) {
         header('location: ' . BASEURL . 'admin');
-        exit();  
+        exit();
       }
       header('location: ' . BASEURL . 'admin');
       exit();
@@ -213,5 +318,10 @@ class Admin extends Controller
     ];
     $this->model('room')->deleteData($option);
     header('location: ' . BASEURL . 'admin/index');
+  }
+
+  public static function msg(String $msg): void
+  {
+    echo "<script>alert('$msg')</script>";
   }
 }

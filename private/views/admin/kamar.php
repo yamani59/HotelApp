@@ -7,12 +7,14 @@
       <tr id="head">
         <th>Tipe Kamar</th>
         <th>Jumlah Kamar</th>
+        <th>Facilities</th>
         <th>Action</th>
       </tr>
       <?php foreach ($data as $dt) : ?>
         <tr>
           <td><?= $dt['name'] ?></td>
           <td><?= $dt['room_count'] ?></td>
+          <td><?= $dt['facilities'] ?></td>
           <td>
             <a href="<?= BASEURL . 'admin/update/' . $dt['id'] ?>">update</a>
             <a href="<?= BASEURL . 'admin/delete/' . $dt['id'] ?>">hapus</a>

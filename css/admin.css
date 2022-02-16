@@ -113,17 +113,17 @@
 }
 
 .container .wrap-Kamar .tambah {
-  margin: 1em;
-  float: right;
+  position: fixed;
   background: #ffd901;
+  border-radius: 50%;
   padding: 0.5em;
-  border-radius: 100%;
+  bottom: 5em;
+  right: 5em;
 }
 
 .container .wrap-Kamar a {
-  font-size: 19pt;
-  color: #ffffff;
-  text-decoration: none;
+  color: white;
+  font-size: 20px;
 }
 
 .container .wrap-Kamar table {
@@ -149,5 +149,73 @@
 .container .wrap-Kamar table td a {
   font-size: 16px;
   color: black;
+}
+
+.container .wrap-Hotel-Facilities {
+  background: #f0f0f0;
+  padding: 1em 5em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 25%;
+      -ms-flex: 25%;
+          flex: 25%;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  height: 100vh;
+}
+
+.container .wrap-Hotel-Facilities .hotel {
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  width: 25%;
+  margin: 1em;
+  height: 25em;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  background-color: white;
+}
+
+.container .wrap-Hotel-Facilities .hotel .head {
+  height: 15em;
+  overflow-y: hidden;
+}
+
+.container .wrap-Hotel-Facilities .hotel .body {
+  background: #fff;
+  padding: 1.5em;
+}
+
+.container .wrap-Hotel-Facilities .hotel .action {
+  margin-right: 1.5em;
+  overflow: hidden;
+  float: right;
+}
+
+.container .wrap-Hotel-Facilities .hotel .action a {
+  display: inline-block;
+  background: #ffd901;
+  padding: 0.5em;
+  color: black;
+  text-decoration: none;
+  border-radius: 10px;
+}
+
+.container .wrap-Hotel-Facilities .hotel .action a:hover {
+  background: #f8efbb;
+}
+
+.container .wrap-Hotel-Facilities .tambah {
+  position: fixed;
+  background: #ffd901;
+  border-radius: 50%;
+  padding: 0.5em;
+  bottom: 5em;
+  right: 5em;
+}
+
+.container .wrap-Hotel-Facilities a {
+  color: white;
+  font-size: 20px;
 }
 /*# sourceMappingURL=admin.css.map */

@@ -3,6 +3,6 @@ class Flass
 {
   public static function msg(string $msg): void
   {
-    echo "<script>alert($msg)</script>";
+    echo "<script>alert('$msg')</script>";
   }
 }

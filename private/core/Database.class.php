@@ -132,9 +132,9 @@ class Database
     $query = "UPDATE $this->table SET ";
 
     foreach ($cleanData as $key => $val) {
-      if ($i === count($cleanData)) $query .= $key .'=:'. $key .' WHERE id=:'.$key;
+      if ($i === count($cleanData)) $query .= $key . '=:' . $key . ' WHERE id=:' . $key;
       else {
-        $query .= $key .'=:' . $key . ',';
+        $query .= $key . '=:' . $key . ',';
         $i++;
       }
     }
@@ -143,8 +143,11 @@ class Database
     foreach ($cleanData as $key => $val) {
       $this->bind($key, $val);
     }
-
-    $this->execute();
+    try {
+      $this->execute();
+    } catch (PDOException $e) {
+      die($e->getMessage());
+    }
     if ($this->rowCount > 0) return true;
     return false;
   }

@@ -35,7 +35,7 @@ class App
 
   public function parseUrl(): array
   {
-    if ( ! isset($_GET['url'])) return ['home'];
+    if (!isset($_GET['url'])) return ['home'];
     $url = filter_var($_GET['url'], FILTER_SANITIZE_URL);
     return explode('/', $url);
   }
