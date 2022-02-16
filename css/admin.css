@@ -218,4 +218,125 @@
   color: white;
   font-size: 20px;
 }
+
+.container .wrap-Home .banner {
+  height: 40vh;
+  overflow-y: hidden;
+}
+
+.container .wrap-Home .banner img {
+  position: relative;
+  top: -15em;
+  width: 100%;
+  height: auto;
+}
+
+.container .wrap-Home .form {
+  padding: 3em;
+}
+
+.container .wrap-Home .form form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.container .wrap-Home .form form .form-date {
+  margin: 0 auto;
+}
+
+.container .wrap-Home .form form input {
+  margin: 0 3em;
+  padding: 1em;
+  font-family: 'Varela Round', sans-serif;
+}
+
+.container .wrap-Home .form form .form-pemesanan {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.container .wrap-Home .form form .form-pemesanan select {
+  margin: 0 auto;
+  width: 100%;
+  min-width: 15ch;
+  max-width: 30ch;
+  border: 1px solid #7e7e7e;
+  border-radius: 0.25em;
+  padding: 0.25em 0.5em;
+  font-size: 1.25rem;
+  cursor: pointer;
+  line-height: 1.1;
+  background-color: #fff;
+  background-image: -webkit-gradient(linear, left bottom, left top, from(#f9f9f9), color-stop(33%, #fff));
+  background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
+}
+
+.container .wrap-Home .form form .form-pemesanan input {
+  margin: 0.5em;
+}
+
+.container .wrap-Home .about-our {
+  position: absolute;
+  bottom: 0;
+  background: #555555;
+  padding: 3em;
+}
+
+.container .wrap-Home .about-our h1 {
+  color: white;
+  text-align: center;
+}
+
+.container .wrap-Home .about-our p {
+  color: white;
+  font-size: 20pt;
+}
+
+.container .wrap-Room {
+  padding: 3em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.container .wrap-Room .room {
+  margin: 1em;
+  -webkit-box-shadow: 0px 2px 5px black;
+          box-shadow: 0px 2px 5px black;
+  width: 90%;
+  background: #fff;
+}
+
+.container .wrap-Room .room .image {
+  height: 15em;
+  overflow-y: hidden;
+}
+
+.container .wrap-Room .room .image img {
+  width: 100%;
+}
+
+.container .wrap-Room .room .body {
+  padding: 2em;
+}
 /*# sourceMappingURL=admin.css.map */

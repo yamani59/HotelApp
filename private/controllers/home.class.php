@@ -10,7 +10,7 @@ class Home extends Controller
     $this->navbar = [
       'home' => BASEURL . 'home',
       'kamar' => BASEURL . 'home/kamar',
-      'fasilitas' => BASEURL . 'home/fasilitas',
+      'fasilitas' => BASEURL . 'home/facilities',
     ];
   }
 
@@ -24,10 +24,16 @@ class Home extends Controller
     }
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-      $currentData = $_POST;
-      array_walk($currentData, function (&$item, $key) {
-        $item = filter_var($item, FILTER_SANITIZE_STRING);
-      });
+      $currentData = [
+        'room_id' => intval($_POST['room_id']),
+        'customer' => $_POST['customer'],
+        'email' => $_POST['email'],
+        'no_hp' => $_POST['no_hp'],
+        'visitor' => $_POST['visitor'],
+        'cek_in' => $_POST['cek-in'],
+        'cek_out' => $_POST['cek-out'],
+        'count_room' => intval($_POST['count_room']),
+      ];
 
       if ($this->model('order')->insertData($currentData)) {
         $_SESSION['flass'] = true;
@@ -45,6 +51,12 @@ class Home extends Controller
     $this->view('template/bottom');
   }
 
+  public function pemesanan(): void
+  {
+    $getData = $this->model('room')->getData();
+    $this->view('home/pemesanan', $getData);
+  }
+
   public function kamar(): void
   {
     $getData = $this->model('room')->getData();
@@ -56,7 +68,7 @@ class Home extends Controller
 
   public function facilities(): void
   {
-    $getData = $this->model('hotel_facilities')->getData();
+    $getData = $this->model('HotelFacilities')->getData();
 
     $this->view('template/top', $this->navbar);
     $this->view('home/facilities', $getData);

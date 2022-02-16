@@ -23,3 +23,10 @@ const insertData = function(link) {
       container.innerHTML = data
     })
 }
+
+const order = (url) => {
+  const form = document.querySelector('.form-pemesanan')
+  const about = document.querySelector('.about-our')
+  about.remove('about-our')
+  fetch(url).then(res => res.text()).then(data => { form.innerHTML = data })
+}

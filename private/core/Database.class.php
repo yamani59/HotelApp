@@ -12,7 +12,7 @@ class Database
     try {
       $this->db = new PDO($this->db, DB_USER, '', [
         PDO::ATTR_PERSISTENT => true,
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
       ]);
     } catch (PDOException $e) {
       die($e->getMessage());
@@ -75,10 +75,10 @@ class Database
   public function insertData(array $data): bool
   {
     $i = 1;
-    $cleanData = $this->sanitizeHtml($data);
+    $cleanData = $data;
 
     // make query
-    $query = "INSERT INTO $this->table (`id`, ";
+    $query = "INSERT INTO `$this->table` (`id`, ";
     foreach ($cleanData as $key => $val) {
       if ($i === count($cleanData)) $query .= "`$key`)";
       else $query .= "`$key`,";
@@ -97,6 +97,8 @@ class Database
       $this->bind($key, $val);
     }
 
+    // $cleanData['room_id'] = (int)$cleanData['room_id'];
+    echo $query;
     $this->execute();
     if ($this->rowCount > 0) return true;
     return false;
@@ -104,7 +106,7 @@ class Database
 
   public function getData(array $options = null): array
   {
-    $query = 'SELECT * FROM ' . $this->table;
+    $query = 'SELECT * FROM `' . $this->table . '`';
     if (!is_null($options)) $query .= ' WHERE ' . $options['by'] . ' = :value';
     $this->query($query);
     if (!is_null($options)) {
